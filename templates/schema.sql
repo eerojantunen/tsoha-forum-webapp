@@ -8,7 +8,6 @@ CREATE TABLE users (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     message TEXT,
-    status INTEGER,
     thread_id INTEGER,
     user_id INTEGER,
     status INTEGER,
@@ -17,20 +16,21 @@ CREATE TABLE messages (
 
 CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
-    topic TEXT,
+    topic_name TEXT,
     access_type INTEGER,
     status INTEGER
 );
 
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
+    thread_name TEXT,
     topic_id INTEGER,
     access_type INTEGER,
     status INTEGER
 );
 
-CREATE TABLE private_threads (
+CREATE TABLE private_topics (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
-    thread_id INTEGER
+    topic_id INTEGER
 );
