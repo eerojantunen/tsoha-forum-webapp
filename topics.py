@@ -4,7 +4,7 @@ from sqlalchemy import text
 def get_list():
     sql = text("""SELECT topics.id as topics_id, topics.status,
                 topics.topic_name, 
-               count(threads.id) as threads_count,
+               count(distinct threads.id) as threads_count,
                count(messages.id) as messages_count
                FROM topics 
                left join threads 
