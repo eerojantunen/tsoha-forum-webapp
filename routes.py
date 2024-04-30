@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 import topics, threads, messages, users
 
 @app.route("/")
@@ -12,10 +12,10 @@ def topic(id):
     threads_data = threads.display_threads(id)
     return render_template("topic.html",threads_data=threads_data)
 
-@app.route("/thread/<int:id>")
-def thread(id):
-    messages_data = messages.get_list(id)
-    return render_template("messages.html",messages_data=messages_data)
+@app.route("/thread/<int:thread_id>")
+def thread(thread_id):
+    messages_data = messages.get_list(thread_id)
+    return render_template("messages.html",messages_data=messages_data, thread_id=thread_id)
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -46,3 +46,12 @@ def signup():
 def logout():
        users.logout()
        return redirect("/")
+
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    message = request.form["message"]
+    thread_id = request.form["thread_id"]
+    if messages.send_new(message,thread_id):
+        return redirect(url_for("thread", thread_id=thread_id))
+    else:
+        return render_template("error.html", message="ERROR")

@@ -10,9 +10,9 @@ def login(username,password):
     if not user:
         return False
     else:
-        hash_value = user.password
+        hash_value = user[1]
         if check_password_hash(hash_value,password):
-            session["username"] = username
+            session["id"] = user[0]
             return True
         else:
             return False
@@ -28,4 +28,7 @@ def signup(username, password):
     return login(username, password)
 
 def logout():
-    del session["username"]
+    del session["id"]
+
+def get_id():
+    return session.get("id",0)

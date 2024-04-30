@@ -1,7 +1,8 @@
-{% if not session.username %}
+{% if 'id' not in session %}
 {%extends 'loginbutton.html' %}
-{% endif %}
-{% block content %}
+{% else %}
+{%extends 'logout.html' %}
+{% endif %}{% block content %}
 <style>
     body {
     margin: auto;
