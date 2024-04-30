@@ -5,15 +5,28 @@
         right: 0;
         margin-right: 20px;
         margin-top: 20px;
-}
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .div_login form input[type=form] {
+        margin-top: 10px;
+    }
+    .div_login form input[type="submit"] {
+        width: 100%;
+        padding: 5px;
+    }
 </style>
 <div class="div_login">
-<form action="/login" method ="POST">
-    <label for="username"> Username:</label>
+<form action="/login" method ="post">
+    <label form="username"> Username:</label>
     <input type="text" name="username"><br>
-    <label for="password"> Password:</label>
+    <label form="password"> Password:</label>
     <input type="text" name="password"><br>
     <input type="submit" value="Login">
+</form>
+<form action="/signup" methods = "POST">
     <input type="submit" value="Sign up">
 </form>
 </div>
