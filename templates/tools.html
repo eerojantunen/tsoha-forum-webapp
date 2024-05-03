@@ -1,0 +1,150 @@
+
+<style>
+    body {
+    margin: auto;
+    max-width: 45em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+ .thread_block {
+   margin-left: auto;
+   margin-right: auto;
+    width: 80%;
+    border: 2px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    position:relative;
+    word-wrap: break-word;
+
+
+    
+ }
+ .thread_block:hover {
+    background-color: grey;
+ }
+ .default_row {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+ }
+
+ .topic_title{
+    text-align: center;
+    margin-bottom: 10;
+}
+
+  .default_navigation {
+    margin: auto;
+    text-align: center;
+  }
+
+  .back {
+  width: 100px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+
+
+  }
+  .back:hover {
+    background-color: grey;
+ }
+ .return{
+  text-decoration: none;
+  text-align: center;
+ }
+.edit_box {
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.del_box{
+    width: 150px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+   display: inline-block;
+   text-decoration: none;
+}
+
+.del_box:hover{
+    background-color: grey;
+
+}
+
+.rename{
+    display: inline-block;
+}
+</style>
+{%if 'id' in session%}
+<hr>
+<div class="default_navigation">
+    <h1>Tools</h1>
+</div>
+<div class="row">
+<a href="/" class="return">
+   <div class="back">Return</div>
+</a>
+</div>
+<div class="default_navigation">
+    <h1>Threads</h1>
+</div>
+  </div>{% for i in user_threads %}
+<div class = "default_row">
+<div class="thread_block">
+   <div class="topic_title"><b>{{i.thread_name}}</b></div> <br> <br>
+   Message count: {{i.message_count}}
+</div>
+    <div class="edit_box">
+    <form action="/delete_thread"  method="post">
+        <input type="hidden" name="thread_id" value="{{i.id}}">
+        <button type="submit" class="del_box" >Delete thread</button>
+    </form>
+
+   <form action="/thread_rename" method="post" class="rename">
+    <input type="hidden" name="thread_id" value="{{i.id}}">
+     Rename thread: <input type="text" name="new_name" required>
+    <input type="submit" value="Submit">
+</form>
+</div>
+</div>
+<hr>
+{% endfor %}
+<div class="default_navigation">
+    <h1>Messages</h1>
+</div>
+{% for i in user_messages %}
+<div class = "default_row">
+    <div class="thread_block">
+       <div class="topic_title">{{i.message}}</div> <br> <br>
+    </div>
+    </div>
+    <div class="edit_box">
+        <a href="/delete_message">
+            <div class="del_box">Delete Message</div>
+             </a>
+        
+       <form action="/edit_message" method="post" class="rename">
+        <input type="hidden" name="message_id" value="{{i.id}}">
+         Edit message: <input type="text"  name="new_message" required>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    </div>
+    {% endfor %}
+{%else%}
+Error: not logged in
+{%endif%}

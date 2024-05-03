@@ -47,3 +47,30 @@ def get_name(id):
     """)
     result = db.session.execute(sql, {"id":id} )
     return result.fetchone()[0]
+
+def user_messages(user_id):
+    sql = text("""select messages.id, messages.message, messages.created_at
+               from messages
+               where messages.user_id =:user_id and messages.status = 1
+               order by messages.created_at desc
+""")
+    results = db.session.execute(sql,{"user_id":user_id})
+    return results.fetchall()
+
+def edit(message_id,new_message):
+    print(message_id)
+    print(new_message)
+    sql = text(""" update messages
+               set message =:new_message
+               where id =:message_id
+""")
+    db.session.execute(sql,{"new_message":new_message,"message_id":message_id})
+    db.session.commit()
+
+def delete_message(message_id):
+    sql = text(""" update messages
+               set status = 0
+               where id =:message_id
+""")
+    db.session.execute(sql,{"message_id":message_id})
+    db.session.commit()

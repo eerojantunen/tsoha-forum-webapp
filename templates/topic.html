@@ -19,6 +19,7 @@
     box-sizing: border-box;
     color: black;
     text-decoration: none;
+    background-color: lightgray;
     transition: background-color 0.3s ease;
     
  }
@@ -50,41 +51,52 @@
    box-sizing: border-box;
    transition: background-color 0.3s ease;
    color: black;
-
+   display: inline-block;
+   justify-content: space-between;
+   margin-left: 10px;
 
   }
   .back:hover {
     background-color: grey;
  }
- .return{
-  text-decoration: none;
-  text-align: center;
- }
+
 
  .new {
    display: inline-block;
    justify-content: space-between;
    align-items: center;
  }
+
+ .navigation {
+   margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
 </style>
 <hr>
 <div class="default_navigation">
-    <h1>Threads</h1>
+    <h1>{{topic_name}}</h1>
 </div>
-<div class="row">
-   {% if 'id' in session %}
 
+<div class="navigation">
+   <form action="/">
+      <button type="submit" class="back">Return</button>
+   </form>
+   
+{% if 'id' in session %}
+{%include 'toolsbutton.html'%}
 <form action="/new_thread" method="post">
    <input type="hidden" name="topic_id" value="{{topic_id}}">
    <button type="submit" class="back">New thread</button>
 </form>
 {%endif%}
 
-<a href="/" class="return">
-   <div class="back">Return</div>
-</a>
 </div>
-  </div>{% for i in threads_data %}
+  </div>
+  
+{% for i in threads_data %}
 <div class = "default_row">
 <a href="/thread/{{i.threadid}}"class="thread_block">
    <div class="topic_title"><b>{{i.thread_name}}</b></div> <br> <br>

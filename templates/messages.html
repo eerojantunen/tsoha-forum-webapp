@@ -55,13 +55,16 @@
       height: 30px;
     }
     .back {
-  width: 100px;
+    width: 100px;
    padding: 10px;
    border: 2px solid #000;
    background-color: lightgrey;
    box-sizing: border-box;
    transition: background-color 0.3s ease;
    color: black;
+   display: inline-block;
+   justify-content: space-between;
+   margin-left: 10px;
 
 
   }
@@ -72,16 +75,28 @@
   text-decoration: none;
  }
 
+ .navigation {
+   margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
 </style>
 <hr>
 
 
 <div class="default_navigation">
   <h1>{{messages_data[0].thread_name}}</h1>
-  <a href="/topic/{{messages_data[0].topic_id}}" class="return">
-    <div class="back">Return</div>
-   </a>
-   </div>  
+</div>
+<div class="navigation">
+<form action="/return_to" method="post">
+  <input type="hidden" name="topic_id" value="{{messages_data[0].topic_id}}">
+  <button type="submit" class="back">Return</button>
+</form>
+{% if 'id' in session %}
+{%include 'toolsbutton.html'%}
+{%endif%}
     </div>
     {% if 'id' in session %}
     <div class ="default_row">
@@ -109,8 +124,4 @@
 </div>
 
 </div>
-
-
-
 {% endblock %}
-
