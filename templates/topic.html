@@ -6,13 +6,13 @@
 <style>
     body {
     margin: auto;
-    max-width: 55em;
+    max-width: 45em;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
  .thread_block {
    margin-left: auto;
    margin-right: auto;
-    width: 60%;
+    width: 80%;
     border: 2px solid #000;
     padding: 10px;
     margin-bottom: 10px;
@@ -38,17 +38,53 @@
 }
 
   .default_navigation {
-    margin-left: auto;   
-    margin-right: auto;
+    margin: auto;
     text-align: center;
   }
+
+  .back {
+  width: 100px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+
+
+  }
+  .back:hover {
+    background-color: grey;
+ }
+ .return{
+  text-decoration: none;
+  text-align: center;
+ }
+
+ .new {
+   display: inline-block;
+   justify-content: space-between;
+   align-items: center;
+ }
 </style>
+<hr>
 <div class="default_navigation">
-    <hr>
     <h1>Threads</h1>
 </div>
+<div class="row">
+   {% if 'id' in session %}
 
-{% for i in threads_data %}
+<form action="/new_thread" method="post">
+   <input type="hidden" name="topic_id" value="{{topic_id}}">
+   <button type="submit" class="back">New thread</button>
+</form>
+{%endif%}
+
+<a href="/" class="return">
+   <div class="back">Return</div>
+</a>
+</div>
+  </div>{% for i in threads_data %}
 <div class = "default_row">
 <a href="/thread/{{i.threadid}}"class="thread_block">
    <div class="topic_title"><b>{{i.thread_name}}</b></div> <br> <br>

@@ -6,20 +6,19 @@
 <style>
     body {
     margin: auto;
-    max-width: 55em;
+    max-width: 45em;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
- .thread_block {
-   margin-left: auto;
-   margin-right: auto;
-    width: 60%;
-    border: 2px solid #000;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    color: black;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+ .default_message {
+   width: 700px;
+   margin: auto;
+   margin-bottom: 10px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   word-wrap: break-word;
+   text-align:left;
+
     
  }
  .thread_block:hover {
@@ -27,8 +26,8 @@
  }
  .default_row {
     margin-top: 20px;
-    display: flex;
     flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
  }
 
@@ -38,37 +37,79 @@
 }
 
   .default_navigation {
-    margin-left: auto;   
-    margin-right: auto;
-    text-align: center;
+    margin: auto;   
+  text-align: center;
   }
-</style>
-<div class="default_navigation">
-    <hr>
-    
-</div>
 
+  
+
+    .newpost{
+      margin: auto;
+    }
+
+    .send_box{
+      width: 500px;
+      height: 30px;
+    }
+    .submit_box {
+      height: 30px;
+    }
+    .back {
+  width: 100px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+
+
+  }
+  .back:hover {
+    background-color: grey;
+ }
+ .return{
+  text-decoration: none;
+ }
+
+</style>
+<hr>
+
+
+<div class="default_navigation">
+  <h1>{{messages_data[0].thread_name}}</h1>
+  <a href="/topic/{{messages_data[0].topic_id}}" class="return">
+    <div class="back">Return</div>
+   </a>
+   </div>  
+    </div>
+    {% if 'id' in session %}
+    <div class ="default_row">
+    <div class="newpost">
+      <form action="/send_message" method="post">
+        <input type="text" name="message" class="send_box">
+        <input type="hidden" name="thread_id" value ="{{thread_id}}">
+        <button type="submit" class="submit_box">Send new message</button>
+      </form>
+      </div>
+      {%endif%}
+
+    </div>
+    </div>
 {% for i in messages_data %}
 <div class = "default_row">
 <div class = "default_message">
-    {{i.message}}
+    ~{{i.username}}<br><br>
+    {{i.message}}<br>
+  <p>  {{i.created_at.strftime("%Y-%m-%d %H:%M:%S")}} </p>
 </div>
 </div>
 {% endfor %}
 
 </div>
-{% if 'id' in session %}
-<div class ="default_row">
-<div class="newpost">
-  <form action="/send_message" method="post">
-    <input type="text" name="message">
-    <input type="hidden" name="thread_id" value ="{{thread_id}}">
-    <button type="submit">Send new message</button>
-  </form>
-</div>
+
 </div>
 
-{%endif%}
 
 
 {% endblock %}

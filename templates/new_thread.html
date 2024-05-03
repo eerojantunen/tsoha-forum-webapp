@@ -1,0 +1,27 @@
+<style>
+    .newthread {
+        max-width: 20em;
+        margin: 30px auto;
+        margin-right: auto;
+        justify-content: center;
+    }
+    .newthread form {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+</style>
+
+<div class="newthread">
+<form action="/create_thread" method = "post">
+    Thread name:
+    <input type="text" name="thread_name" required><br>
+    First message
+    <input type="text" name="thread_message" required><br>
+    <input type="hidden" name="topic_id" value="{{topic_id}}">
+
+    <input type="submit" value="create">
+</form>
+</div>
+

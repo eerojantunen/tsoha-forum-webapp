@@ -10,7 +10,7 @@ def index():
 @app.route("/topic/<int:id>")
 def topic(id):
     threads_data = threads.display_threads(id)
-    return render_template("topic.html",threads_data=threads_data)
+    return render_template("topic.html",threads_data=threads_data, topic_id=id)
 
 @app.route("/thread/<int:thread_id>")
 def thread(thread_id):
@@ -55,3 +55,17 @@ def send_message():
         return redirect(url_for("thread", thread_id=thread_id))
     else:
         return render_template("error.html", message="ERROR")
+    
+@app.route("/new_thread", methods=["POST"])
+def new_thread():
+    topic_id = request.form["topic_id"]
+    return render_template("new_thread.html",topic_id=topic_id)
+
+@app.route("/create_thread", methods=["POST"])
+def create_thread():
+    thread_name = request.form["thread_name"]
+    message = request.form["thread_message"]
+    topic_id = request.form["topic_id"]
+    user_id = users.get_id()
+    threads.insert_thread(thread_name,message,user_id,topic_id)
+    return redirect(url_for("topic",id=topic_id))
