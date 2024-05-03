@@ -40,3 +40,34 @@ def thread_to_topic(id):
 """)
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
+
+def topic_access(id):
+    sql = text(""" select topics.access_type from topics 
+               where topics.id =:id
+""")
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()[0]
+
+def add_to_topic(topic_id, user_id):
+    sql = text(""" insert into private_topics
+                (user_id, topic_id)
+               values (:user_id, :topic_id)
+""")
+    db.session.execute(sql,{"user_id":user_id,"topic_id":topic_id})
+    db.session.commit()
+
+def delete_topic(id):
+    sql = text(""" update topics 
+               set status = 0
+               where id=:id
+""")
+    db.session.execute(sql,{"id":id})
+    db.session.commit()
+
+def topic_rename(new_name,id):
+    sql = text(""" update topics 
+               set topic_name =:new_name
+               where id=:id
+""")
+    db.session.execute(sql,{"new_name":new_name,"id":id})
+    db.session.commit()

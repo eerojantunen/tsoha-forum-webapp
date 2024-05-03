@@ -44,8 +44,6 @@ def user_threads(user_id):
     return result.fetchall()
 
 def rename(thread_id, new_name):
-    print(thread_id)
-    print(new_name)
     sql = text(""" update threads 
                set thread_name =:new_name
                where id=:thread_id
@@ -59,7 +57,6 @@ def delete(thread_id):
                where id=:thread_id
 """)
     db.session.execute(sql,{"thread_id":thread_id})
-    print("XD?")
     db.session.commit()
 
 def get_name(id):

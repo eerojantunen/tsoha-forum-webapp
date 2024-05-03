@@ -103,10 +103,40 @@
    <div class="back">Return</div>
 </a>
 </div>
+{% if topics_all|length > 0 %}
+<div class ="default_navigation">
+<h1>Topics</h1>
+</div>
+{%endif%}
+{% for i in topics_all %}
+<div class = "default_row">
+    <div class="thread_block">
+       <div class="topic_title"><b>{{i.topic_name}}</b></div> <br> <br>
+       Message count: {{i.message_count}}
+    </div>
+        <div class="edit_box">
+        <form action="/delete_topic"  method="post">
+            <input type="hidden" name="topic_id" value="{{i.id}}">
+            <button type="submit" class="del_box" >Delete Topic</button>
+        </form>
+    
+       <form action="/topic_rename" method="post" class="rename">
+        <input type="hidden" name="topic_id" value="{{i.id}}">
+         Rename topic: <input type="text" name="new_name" required>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    </div>
+    <hr>
+{%endfor%}
+
 <div class="default_navigation">
     <h1>Threads</h1>
 </div>
-  </div>{% for i in user_threads %}
+</div>
+
+
+{% for i in user_threads %}
 <div class = "default_row">
 <div class="thread_block">
    <div class="topic_title"><b>{{i.thread_name}}</b></div> <br> <br>
@@ -127,9 +157,11 @@
 </div>
 <hr>
 {% endfor %}
+
 <div class="default_navigation">
     <h1>Messages</h1>
 </div>
+
 {% for i in user_messages %}
 <div class = "default_row">
     <div class="thread_block">

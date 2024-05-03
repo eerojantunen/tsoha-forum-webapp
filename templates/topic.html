@@ -74,6 +74,17 @@
     justify-content: center;
     align-items: center;
  }
+
+ .add_user {
+   text-align: center;
+   flex-direction: column;
+   align-items: center;
+ }
+ .idbox {
+   width: 30px;
+
+ }
+ 
 </style>
 <hr>
 <div class="default_navigation">
@@ -95,6 +106,14 @@
 
 </div>
   </div>
+  {%if access_type == 0%}
+  <form action="/add_user" method="post" class="add_user">
+   Grant access to id
+   <input type="text" name="user_id" placeholder="id" class="idbox">
+    <input type="hidden" name="topic_id" value="{{topic_id}}">
+    <input type="submit" name="submit">
+  </form>
+  {%endif%}
   
 {% for i in threads_data %}
 <div class = "default_row">

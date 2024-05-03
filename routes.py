@@ -13,7 +13,9 @@ def index():
 def topic(id):
     threads_data = threads.display_threads(id)
     topic_name = topics.topic_name(id)[0]
-    return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name)
+    access_type = topics.topic_access(id)
+
+    return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name, access_type=access_type)
 
 @app.route("/thread/<int:thread_id>")
 def thread(thread_id):
@@ -80,7 +82,13 @@ def tools():
     user_id = users.get_id()
     user_threads = threads.user_threads(user_id)
     user_messsages = messages.user_messages(user_id)
-    return render_template("tools.html", user_id=user_id, user_threads=user_threads, user_messages=user_messsages)
+    topics_all = "ha"
+    if users.is_admin():
+        topics_all = topics.get_list()
+        return render_template("tools.html", user_id=user_id, user_threads=user_threads, user_messages=user_messsages, topics_all=topics_all)
+    else:
+        return render_template("tools.html", user_id=user_id, user_threads=user_threads, user_messages=user_messsages)
+
 
 @app.route("/thread_rename", methods=["POST"])
 def thread_rename():
@@ -128,3 +136,24 @@ def create_topic():
         topics.create_topic(topic_name,0)
 
     return redirect("/")
+
+@app.route("/add_user", methods=["POST"])
+def add_user():
+    topic_id = request.form["topic_id"]
+    user_id = request.form["user_id"]
+    topics.add_to_topic(topic_id, user_id)
+    return redirect(url_for("topic", id=topic_id))
+
+@app.route("/delete_topic", methods=["POST"])
+def delete_topic():
+    topic_id = request.form["topic_id"]
+    topics.delete_topic(topic_id)
+    return redirect("/tools")
+
+
+@app.route("/topic_rename", methods=["POST"])
+def topic_rename():
+    topic_id = request.form["topic_id"]
+    new_name = request.form["new_name"]
+    topics.topic_rename(topic_id, new_name)
+    return redirect("/tools")
