@@ -11,6 +11,7 @@ def get_list():
                on topics.id = threads.topic_id and threads.status=1
                left join messages
                on messages.thread_id = threads.id and messages.status = 1
+               where topics.access_type = 1
                group by topics.id
                order by threads_count desc""")
     result = db.session.execute(sql)
@@ -71,3 +72,36 @@ def topic_rename(new_name,id):
 """)
     db.session.execute(sql,{"new_name":new_name,"id":id})
     db.session.commit()
+
+def get_list_all():
+    sql = text("""SELECT topics.id as topics_id, topics.status,
+                topics.topic_name, 
+               count(distinct threads.id) as threads_count,
+               count(messages.id) as messages_count
+               FROM topics 
+               left join threads 
+               on topics.id = threads.topic_id and threads.status=1
+               left join messages
+               on messages.thread_id = threads.id and messages.status = 1
+               group by topics.id
+               order by threads_count desc""")
+    result = db.session.execute(sql)
+    return result.fetchall()
+
+def hidden_topics(id):
+    sql = text("""SELECT topics.id as topics_id, topics.status,
+                topics.topic_name, 
+               count(distinct threads.id) as threads_count,
+               count(messages.id) as messages_count
+               FROM users left join
+               private_topics on users.id = private_topics.user_id
+               left join topics on private_topics.topic_id = topics.id
+               left join threads 
+               on topics.id = threads.topic_id and threads.status=1
+               left join messages
+               on messages.thread_id = threads.id and messages.status = 1
+               where topics.access_type = 0 and users.id =:id
+               group by topics.id
+               order by threads_count desc""")
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchall()

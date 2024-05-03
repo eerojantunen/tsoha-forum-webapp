@@ -93,5 +93,27 @@ Message count: {{i.messages_count}}
 {% endif %}
 {% endfor %}
 
+{% if private_topics|length > 0 %}
+<hr>
+<div class ="default_navigation">
+<h1>Private topics</h1>
+</div>
+{%endif%}
+
+
+{% for i in private_topics %}
+{% if loop.index0 % 3 == 0 %}
+<div class = "default_row">
+{% endif %}
+<a href="/topic/{{i.topics_id}}"class="default_block">
+<div class="topic_title"><b>{{i.topic_name}}</b></div> <br>
+Thread count: {{i.threads_count}} <br>
+Message count: {{i.messages_count}}
+</a>
+
+{% if loop.index % 3 == 0 or loop.last %}
+</div>
+{% endif %}
+{% endfor %}
 
 {% endblock %}

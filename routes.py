@@ -4,10 +4,14 @@ import topics, threads, messages, users
 
 @app.route("/")
 def index():
-    topics_list = topics.get_list()     
     is_admin = users.is_admin()
-    print(is_admin)
-    return render_template("index.html",topics_list=topics_list, is_admin=is_admin)
+    if is_admin:
+        topics_list = topics.get_list_all()
+    else:
+        topics_list = topics.get_list()
+    user_id = users.get_id()     
+    private_topics = topics.hidden_topics(user_id)
+    return render_template("index.html",topics_list=topics_list, is_admin=is_admin, private_topics=private_topics)
 
 @app.route("/topic/<int:id>")
 def topic(id):
