@@ -20,7 +20,7 @@ def login(username,password):
 def signup(username, password):
     hash_value = generate_password_hash(password)
     try:
-        sql = text("insert into users (username, password) values (:username,:password)")
+        sql = text("insert into users (username, password, tier) values (:username,:password,0)")
         db.session.execute(sql, {"username":username,"password":hash_value})
         db.session.commit()
     except:
@@ -32,3 +32,15 @@ def logout():
 
 def get_id():
     return session.get("id",0)
+
+def is_admin():
+    id = get_id()
+    if id > 0:
+        sql = text("""SELECT users.tier 
+                from users 
+                where users.id=:id""")
+        result = db.session.execute(sql, {"id":id})
+        tier = result.fetchone()
+        if tier[0] == 1:
+          return True
+    return False

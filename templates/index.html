@@ -28,7 +28,7 @@
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
  }
 
  .topic_title{
@@ -37,16 +37,47 @@
 }
 
   .default_navigation {
-    margin-left: auto;   
-    margin-right: auto;
+    margin: auto;
     text-align: center;
   }
+  .back {
+  width: 100px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+   display: inline-block;
+   justify-content: space-between;
+   margin-left: 10px;
+  }
+  .back:hover {
+    background-color: grey;
+ }
+ .navigation {
+   margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+  
 </style>
 <div class="default_navigation">
     <hr>
     <h1>Topics</h1>
 </div>
-
+<div class="navigation">
+{% if is_admin == True %}
+<form action="/new_topic">
+   <button type="submit" class="back">New topic</button>
+</form>
+{%endif%}
+{% if 'id' in session %}
+{%include 'toolsbutton.html'%}
+{%endif%}
+</div>
 {% for i in topics_list %}
 {% if loop.index0 % 3 == 0 %}
 <div class = "default_row">

@@ -4,8 +4,10 @@ import topics, threads, messages, users
 
 @app.route("/")
 def index():
-    topics_list = topics.get_list()        
-    return render_template("index.html",topics_list=topics_list)
+    topics_list = topics.get_list()     
+    is_admin = users.is_admin()
+    print(is_admin)
+    return render_template("index.html",topics_list=topics_list, is_admin=is_admin)
 
 @app.route("/topic/<int:id>")
 def topic(id):
@@ -16,7 +18,9 @@ def topic(id):
 @app.route("/thread/<int:thread_id>")
 def thread(thread_id):
     messages_data = messages.get_list(thread_id)
-    return render_template("messages.html",messages_data=messages_data, thread_id=thread_id)
+    threadname = threads.get_name(thread_id)
+    topic_id = topics.thread_to_topic(thread_id)
+    return render_template("messages.html",messages_data=messages_data, thread_id=thread_id, threadname=threadname, topic_id=topic_id)
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -109,3 +113,18 @@ def delete_thread():
 def return_to():
     topic_id = request.form["topic_id"]
     return redirect(url_for("topic", id=topic_id))
+
+@app.route("/new_topic")
+def new_topic():
+    return render_template("create_topic.html")
+
+@app.route("/create_topic", methods=["POST"])
+def create_topic():
+    topic_name = request.form["topic"]
+    private_value = request.form.get("private_value")
+    if private_value == None:
+        topics.create_topic(topic_name,1)
+    else:
+        topics.create_topic(topic_name,0)
+
+    return redirect("/")

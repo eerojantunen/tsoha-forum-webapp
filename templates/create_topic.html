@@ -1,0 +1,27 @@
+<style>
+    .newtopic {
+        max-width: 20em;
+        margin: 30px auto;
+ 
+    }
+    .newtopic form {
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+    
+
+
+</style>
+
+<div class="newtopic">
+<form action="/create_topic" method ="post">
+    Topic name:
+    <input type="text" name="topic" required><br>
+    <div class="private">
+    Private: <input type="checkbox" name="private_value" value=0> <br>
+    </div>
+    <input type="submit" value="create">
+</form>
+</div>
+

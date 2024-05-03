@@ -24,3 +24,19 @@ def topic_name(id):
 """)
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
+
+def create_topic(topic_name, access_type):
+    sql = text(""" insert into topics
+                (topic_name, access_type, status)
+               values (:topic_name, :access_type, 1)
+""")
+    db.session.execute(sql,{"topic_name":topic_name,"access_type":access_type})
+    db.session.commit()
+
+def thread_to_topic(id):
+    sql = text(""" select topics.id from topics 
+               left join threads on threads.topic_id = topics.id
+               where threads.id =:id
+""")
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()[0]

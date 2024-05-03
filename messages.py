@@ -74,3 +74,11 @@ def delete_message(message_id):
 """)
     db.session.execute(sql,{"message_id":message_id})
     db.session.commit()
+
+def delete(id):
+    sql = text(""" update messages
+               set status = 0
+               where messages.id =:id
+""")
+    db.session.execute(sql, {"id":id})
+    db.session.commit()

@@ -59,4 +59,13 @@ def delete(thread_id):
                where id=:thread_id
 """)
     db.session.execute(sql,{"thread_id":thread_id})
+    print("XD?")
     db.session.commit()
+
+def get_name(id):
+    sql = text(""" select thread_name
+               from threads
+               where threads.id =:id
+""")
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()[0]
