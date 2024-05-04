@@ -18,8 +18,8 @@ def topic(id):
     threads_data = threads.display_threads(id)
     topic_name = topics.topic_name(id)[0]
     access_type = topics.topic_access(id)
-
-    return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name, access_type=access_type)
+    is_admin = users.is_admin()
+    return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name, access_type=access_type, is_admin=is_admin)
 
 @app.route("/thread/<int:thread_id>")
 def thread(thread_id):

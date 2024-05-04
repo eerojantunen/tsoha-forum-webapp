@@ -107,12 +107,14 @@
 </div>
   </div>
   {%if access_type == 0%}
+  {% if is_admin %}
   <form action="/add_user" method="post" class="add_user">
    Grant access to id
    <input type="text" name="user_id" placeholder="id" class="idbox">
     <input type="hidden" name="topic_id" value="{{topic_id}}">
     <input type="submit" name="submit">
   </form>
+  {%endif%}
   {%endif%}
   
 {% for i in threads_data %}
