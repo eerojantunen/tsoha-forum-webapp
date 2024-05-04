@@ -22,11 +22,20 @@ def login(username,password):
 def signup(username, password):
     hash_value = generate_password_hash(password)
     try:
-        sql = text("insert into users (username, password, tier) values (:username,:password,0)")
-        db.session.execute(sql, {"username":username,"password":hash_value})
+        sql = text("""insert into users (username, password, tier)
+                    values (:username,:password,0)
+                   returning id""")
+        result = db.session.execute(sql, {"username":username,"password":hash_value})
         db.session.commit()
     except:
         return False
+    if result.fetchone()[0] == 1:
+        sql = text("""update users 
+                   set tier = 1
+                   where users.id = 1
+                   """)
+        result = db.session.execute(sql)
+        db.session.commit()
     return login(username, password)
 
 def logout():
