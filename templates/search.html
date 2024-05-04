@@ -1,0 +1,121 @@
+{%extends 'logout.html' %}
+{% block content %}
+<style>
+    body {
+    margin: auto;
+    max-width: 45em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+ .default_message {
+   width: 700px;
+   margin: auto;
+   margin-bottom: 10px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   word-wrap: break-word;
+   text-align:left;
+
+    
+ }
+ .thread_block:hover {
+    background-color: grey;
+ }
+ .default_row {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+ }
+
+ .topic_title{
+    text-align: center;
+    margin-bottom: 10;
+}
+
+  .default_navigation {
+    margin: auto;   
+  text-align: center;
+  }
+
+  
+
+    .newpost{
+      margin: auto;
+    }
+
+    .send_box{
+      width: 500px;
+      height: 30px;
+    }
+    .submit_box {
+      height: 30px;
+    }
+    .back {
+    width: 100px;
+   padding: 10px;
+   border: 2px solid #000;
+   background-color: lightgrey;
+   box-sizing: border-box;
+   transition: background-color 0.3s ease;
+   color: black;
+   display: inline-block;
+   justify-content: space-between;
+   margin-left: 10px;
+
+
+  }
+  .back:hover {
+    background-color: grey;
+ }
+ .return{
+  text-decoration: none;
+ }
+
+ .navigation {
+   margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+</style>
+<hr>
+
+
+<div class="default_navigation">
+  <h1>Search</h1>
+</div>
+<div class="navigation">
+<form action="/tools">
+  <button type="submit" class="back">Return</button>
+</form>
+    </div>
+    <div class ="default_row">
+    <div class="newpost">
+      <form action="/search" method="post">
+        <input type="text" name="message" class="send_box">
+        <button type="submit" class="submit_box">Search</button>
+      </form>
+      </div>
+    </div>
+    </div>
+
+{% if messages_data %}
+
+{% for i in messages_data %}
+<div class = "default_row">
+<div class = "default_message">
+    <b>{{i.thread_name}}</b> <br> <br>
+    ~{{i.username}}<br><br>
+    {{i.message}}<br>
+  <p>  {{i.created_at.strftime("%Y-%m-%d %H:%M:%S")}} </p>
+</div>
+</div>
+{% endfor %}
+
+</div>
+
+</div>
+{%endif%}
+{% endblock %}

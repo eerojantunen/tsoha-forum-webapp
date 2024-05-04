@@ -161,3 +161,14 @@ def topic_rename():
     new_name = request.form["new_name"]
     topics.topic_rename(topic_id, new_name)
     return redirect("/tools")
+
+@app.route("/search", methods=["post"])
+def search():
+    message = request.form["message"]
+    if message == "":
+        return render_template("search.html")
+    else:
+        messages_data = messages.search(message)
+        return render_template("search.html", messages_data=messages_data)
+
+    

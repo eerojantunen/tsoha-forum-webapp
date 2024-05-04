@@ -50,7 +50,8 @@
    box-sizing: border-box;
    transition: background-color 0.3s ease;
    color: black;
-
+   justify-content: space-between;
+    margin-left: 10px;
 
   }
   .back:hover {
@@ -61,7 +62,7 @@
   text-decoration: none;
   text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
  }
 .edit_box {
@@ -92,22 +93,43 @@
 .rename{
     display: inline-block;
 }
+
+.nav_row {
+    margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 </style>
 {%if 'id' in session%}
 <hr>
 <div class="default_navigation">
     <h1>Tools</h1>
 </div>
-<div class="row">
-<a href="/" class="return">
-   <div class="back">Return</div>
-</a>
+
+
+<div class="nav_row">
+        <form action="/">
+           <button type="submit" class="back">Return</button>
+        </form>
+            <form action="/search" method="post">
+            <input type="hidden" name="message" value="">
+
+            <button type="submit" class="back">Search</button>
+        </form>
 </div>
+
+
 {% if topics_all|length > 0 %}
 <div class ="default_navigation">
 <h1>Topics</h1>
 </div>
 {%endif%}
+
+
+
 {% for i in topics_all %}
 <div class = "default_row">
     <div class="thread_block">

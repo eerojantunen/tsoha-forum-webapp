@@ -82,3 +82,27 @@ def delete(id):
 """)
     db.session.execute(sql, {"id":id})
     db.session.commit()
+
+def search(message):
+    search_edited = f'%{message}%'
+    sql = text("""
+                select messages.message,
+               messages.created_at,
+               users.username,
+               threads.topic_id as topic_id,
+               threads.thread_name as thread_name
+               from threads left join messages on
+               messages.thread_id = threads.id
+               left join users on
+               messages.user_id = users.id
+               where messages.status = 1 and messages.message like :message
+               group by messages.created_at,
+               messages.message,
+               users.username,
+               threads.topic_id,
+               threads.thread_name
+               order by messages.created_at desc
+""")
+
+    result = db.session.execute(sql, {"message":search_edited})
+    return result.fetchall()
