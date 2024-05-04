@@ -15,7 +15,7 @@
 </style>
 
 <div class="newtopic">
-<form action="/create_topic" method ="post">
+<form action="/create_topic" method ="post" onsubmit="return check(this)">
     Topic name:
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="text" name="topic" required><br>
@@ -26,3 +26,14 @@
 </form>
 </div>
 
+<script>
+    function check(form) {
+        if (form.topic.value.length > 20) {
+            alert("Topic name too long");
+            return false;
+        }
+        return true;
+        }
+    </script>
+    
+    

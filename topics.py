@@ -5,7 +5,8 @@ def get_list():
     sql = text("""SELECT topics.id as topics_id, topics.status,
                 topics.topic_name, 
                count(distinct threads.id) as threads_count,
-               count(messages.id) as messages_count
+               count(messages.id) as messages_count,
+                to_char(max(messages.created_at),'YYYY-MM-DD HH24:MI:SS') as last_message
                FROM topics 
                left join threads 
                on topics.id = threads.topic_id and threads.status=1
@@ -77,7 +78,8 @@ def get_list_all():
     sql = text("""SELECT topics.id as topics_id, topics.status,
                 topics.topic_name, 
                count(distinct threads.id) as threads_count,
-               count(messages.id) as messages_count
+               count(messages.id) as messages_count,
+                to_char(max(messages.created_at),'YYYY-MM-DD HH24:MI:SS') as last_message
                FROM topics 
                left join threads 
                on topics.id = threads.topic_id and threads.status=1
@@ -93,7 +95,8 @@ def hidden_topics(id):
     sql = text("""SELECT topics.id as topics_id, topics.status,
                 topics.topic_name, 
                count(distinct threads.id) as threads_count,
-               count(messages.id) as messages_count
+               count(messages.id) as messages_count,
+                to_char(max(messages.created_at),'YYYY-MM-DD HH24:MI:SS') as last_message
                FROM users left join
                private_topics on users.id = private_topics.user_id
                left join topics on private_topics.topic_id = topics.id

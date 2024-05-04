@@ -14,7 +14,7 @@
 </style>
 
 <div class="createnew">
-<form action="/signup" method = "post">
+<form action="/signup" method = "post" onsubmit="return check(this)">
     Username:
     <input type="text" name="username"><br>
     Password
@@ -24,4 +24,19 @@
     <input type="submit" value="Sign Up">
 </form>
 </div>
+
+
+<script>
+function check(form) {
+    if (form.username.value.length > 20) {
+        alert("Username too long");
+        return false;
+    }
+    if (form.password1.value.length > 30) {
+        alert("password too long");
+        return false;
+    }
+    return true;
+    }
+</script>
 

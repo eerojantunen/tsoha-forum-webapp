@@ -101,7 +101,7 @@
     {% if 'id' in session %}
     <div class ="default_row">
     <div class="newpost">
-      <form action="/send_message" method="post">
+      <form action="/send_message" method="post" onsubmit="return check(this)">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="text" name="message" class="send_box">
         <input type="hidden" name="thread_id" value ="{{thread_id}}">
@@ -126,5 +126,16 @@
 </div>
 
 </div>
+
+<script>
+  function check(form) {
+      if (form.message.value.length > 200) {
+          alert("message too long");
+          return false;
+      }
+      return true;
+      }
+  </script>
+  
 {%endif%}
 {% endblock %}

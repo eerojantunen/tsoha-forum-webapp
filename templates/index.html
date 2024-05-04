@@ -71,7 +71,6 @@
 <div class="navigation">
 {% if is_admin == True %}
 <form action="/new_topic">
-   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
    <button type="submit" class="back">New topic</button>
 </form>
 {%endif%}
@@ -86,7 +85,9 @@
 <a href="/topic/{{i.topics_id}}"class="default_block">
 <div class="topic_title"><b>{{i.topic_name}}</b></div> <br>
 Thread count: {{i.threads_count}} <br>
-Message count: {{i.messages_count}}
+Message count: {{i.messages_count}}<br>
+Latest message: <br>
+ {{i.last_message}}
 </a>
 
 {% if loop.index % 3 == 0 or loop.last %}
@@ -109,7 +110,8 @@ Message count: {{i.messages_count}}
 <a href="/topic/{{i.topics_id}}"class="default_block">
 <div class="topic_title"><b>{{i.topic_name}}</b></div> <br>
 Thread count: {{i.threads_count}} <br>
-Message count: {{i.messages_count}}
+Message count: {{i.messages_count}} <br>
+Latest message: {{i.last_message}}
 </a>
 
 {% if loop.index % 3 == 0 or loop.last %}
