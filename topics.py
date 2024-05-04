@@ -105,3 +105,13 @@ def hidden_topics(id):
                order by threads_count desc""")
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
+
+def id_has_access(userid, topicid):
+    sql = text("""SELECT * from private_topics
+                    where private_topics.user_id=:userid and private_topics.topic_id =:topicid""")
+    result = db.session.execute(sql, {"userid":userid, "topicid":topicid})
+    print("LOL")
+    print(result.fetchall())
+    if result.fetchall() != []:
+        return True
+    return False

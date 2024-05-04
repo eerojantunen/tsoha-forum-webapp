@@ -18,6 +18,11 @@ def topic(id):
     threads_data = threads.display_threads(id)
     topic_name = topics.topic_name(id)[0]
     access_type = topics.topic_access(id)
+    if access_type == 0:
+        user_id = users.get_id()
+        if topics.id_has_access(user_id,id) == False and users.is_admin()==False:
+            print("HA")
+            return render_template("/error.html", message="no access")
     is_admin = users.is_admin()
     return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name, access_type=access_type, is_admin=is_admin)
 
@@ -26,6 +31,12 @@ def thread(thread_id):
     messages_data = messages.get_list(thread_id)
     threadname = threads.get_name(thread_id)
     topic_id = topics.thread_to_topic(thread_id)
+    access_type = topics.topic_access(topic_id)
+    if access_type == 0:
+        user_id = users.get_id()
+        if topics.id_has_access(user_id,topic_id) == False and users.is_admin()==False:
+                print("HA")
+                return render_template("/error.html", message="no access")
     return render_template("messages.html",messages_data=messages_data, thread_id=thread_id, threadname=threadname, topic_id=topic_id)
 
 @app.route("/login", methods=["GET","POST"])
@@ -128,7 +139,9 @@ def return_to():
 
 @app.route("/new_topic")
 def new_topic():
-    return render_template("create_topic.html")
+    if users.is_admin():
+        return render_template("create_topic.html")
+    return render_template("/error.html", message="No access")
 
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
