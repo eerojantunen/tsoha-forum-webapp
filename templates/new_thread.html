@@ -22,6 +22,7 @@
     Thread name:
     <input type="text" name="thread_name" required><br>
     First message
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="text" name="thread_message" required><br>
     <input type="hidden" name="topic_id" value="{{topic_id}}">
 

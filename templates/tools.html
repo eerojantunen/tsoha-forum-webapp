@@ -138,12 +138,15 @@
     </div>
         <div class="edit_box">
         <form action="/delete_topic"  method="post">
-            <input type="hidden" name="topic_id" value="{{i.id}}">
+            <input type="hidden" name="topic_id" value="{{i.topics_id}}">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             <button type="submit" class="del_box" >Delete Topic</button>
         </form>
     
        <form action="/topic_rename" method="post" class="rename">
         <input type="hidden" name="topic_id" value="{{i.id}}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
          Rename topic: <input type="text" name="new_name" required>
         <input type="submit" value="Submit">
     </form>
@@ -166,12 +169,14 @@
 </div>
     <div class="edit_box">
     <form action="/delete_thread"  method="post">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         <input type="hidden" name="thread_id" value="{{i.id}}">
         <button type="submit" class="del_box" >Delete thread</button>
     </form>
 
    <form action="/thread_rename" method="post" class="rename">
     <input type="hidden" name="thread_id" value="{{i.id}}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      Rename thread: <input type="text" name="new_name" required>
     <input type="submit" value="Submit">
 </form>
@@ -193,11 +198,13 @@
     <div class="edit_box">
         <form action="/delete_message"  method="post">
             <input type="hidden" name="message_id" value="{{i.id}}">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             <button type="submit" class="del_box" >Delete message</button>
         </form>
         
        <form action="/edit_message" method="post" class="rename">
         <input type="hidden" name="message_id" value="{{i.id}}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
          Edit message: <input type="text"  name="new_message" required>
         <input type="submit" value="Submit">
     </form>

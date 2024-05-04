@@ -17,6 +17,7 @@
 <div class="newtopic">
 <form action="/create_topic" method ="post">
     Topic name:
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="text" name="topic" required><br>
     <div class="private">
     Private: <input type="checkbox" name="private_value" value=0> <br>

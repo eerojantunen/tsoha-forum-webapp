@@ -11,7 +11,7 @@ def get_list():
                on topics.id = threads.topic_id and threads.status=1
                left join messages
                on messages.thread_id = threads.id and messages.status = 1
-               where topics.access_type = 1
+               where topics.access_type = 1 and topics.status = 1
                group by topics.id
                order by threads_count desc""")
     result = db.session.execute(sql)
@@ -57,12 +57,12 @@ def add_to_topic(topic_id, user_id):
     db.session.execute(sql,{"user_id":user_id,"topic_id":topic_id})
     db.session.commit()
 
-def delete_topic(id):
+def delete_topic(topic_id):
     sql = text(""" update topics 
                set status = 0
-               where id=:id
+               where id=:topic_id
 """)
-    db.session.execute(sql,{"id":id})
+    db.session.execute(sql,{"topic_id":topic_id})
     db.session.commit()
 
 def topic_rename(new_name,id):
@@ -83,6 +83,7 @@ def get_list_all():
                on topics.id = threads.topic_id and threads.status=1
                left join messages
                on messages.thread_id = threads.id and messages.status = 1
+               where topics.status = 1
                group by topics.id
                order by threads_count desc""")
     result = db.session.execute(sql)
@@ -100,7 +101,7 @@ def hidden_topics(id):
                on topics.id = threads.topic_id and threads.status=1
                left join messages
                on messages.thread_id = threads.id and messages.status = 1
-               where topics.access_type = 0 and users.id =:id
+               where topics.access_type = 0 and users.id =:id and topics.status = 1
                group by topics.id
                order by threads_count desc""")
     result = db.session.execute(sql, {"id":id})

@@ -21,7 +21,6 @@ def topic(id):
     if access_type == 0:
         user_id = users.get_id()
         if topics.id_has_access(user_id,id) == False and users.is_admin()==False:
-            print("HA")
             return render_template("/error.html", message="no access")
     is_admin = users.is_admin()
     return render_template("topic.html",threads_data=threads_data, topic_id=id, topic_name=topic_name, access_type=access_type, is_admin=is_admin)
@@ -35,7 +34,6 @@ def thread(thread_id):
     if access_type == 0:
         user_id = users.get_id()
         if topics.id_has_access(user_id,topic_id) == False and users.is_admin()==False:
-                print("HA")
                 return render_template("/error.html", message="no access")
     return render_template("messages.html",messages_data=messages_data, thread_id=thread_id, threadname=threadname, topic_id=topic_id)
 
@@ -71,6 +69,7 @@ def logout():
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
+    users.check_csrf()
     message = request.form["message"]
     thread_id = request.form["thread_id"]
     if messages.send_new(message,thread_id):
@@ -85,6 +84,7 @@ def new_thread():
 
 @app.route("/create_thread", methods=["POST"])
 def create_thread():
+    users.check_csrf()
     thread_name = request.form["thread_name"]
     message = request.form["thread_message"]
     topic_id = request.form["topic_id"]
@@ -99,7 +99,7 @@ def tools():
     user_messsages = messages.user_messages(user_id)
     topics_all = "ha"
     if users.is_admin():
-        topics_all = topics.get_list()
+        topics_all = topics.get_list_all()
         return render_template("tools.html", user_id=user_id, user_threads=user_threads, user_messages=user_messsages, topics_all=topics_all)
     else:
         return render_template("tools.html", user_id=user_id, user_threads=user_threads, user_messages=user_messsages)
@@ -107,6 +107,7 @@ def tools():
 
 @app.route("/thread_rename", methods=["POST"])
 def thread_rename():
+    users.check_csrf()
     thread_id = int(request.form["thread_id"])
     new_name = str(request.form["new_name"])
     threads.rename(thread_id,new_name)
@@ -114,6 +115,7 @@ def thread_rename():
 
 @app.route("/edit_message", methods=["POST"])
 def edit_message():
+    users.check_csrf()
     message_id = request.form["message_id"]
     message= request.form["new_message"]
     new_message = message + " (edited)"
@@ -122,12 +124,14 @@ def edit_message():
 
 @app.route("/delete_message", methods=["POST"])
 def delete_message():
+    users.check_csrf()
     message_id = request.form["message_id"]
     messages.delete(message_id)
     return redirect("/tools")
 
 @app.route("/delete_thread", methods=["POST"])
 def delete_thread():
+    users.check_csrf()
     thread_id = request.form["thread_id"]
     threads.delete(thread_id)
     return redirect("/tools")
@@ -145,6 +149,7 @@ def new_topic():
 
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
+    users.check_csrf()
     topic_name = request.form["topic"]
     private_value = request.form.get("private_value")
     if private_value == None:
@@ -156,6 +161,7 @@ def create_topic():
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
+    users.check_csrf()
     topic_id = request.form["topic_id"]
     user_id = request.form["user_id"]
     topics.add_to_topic(topic_id, user_id)
@@ -163,6 +169,7 @@ def add_user():
 
 @app.route("/delete_topic", methods=["POST"])
 def delete_topic():
+    users.check_csrf()
     topic_id = request.form["topic_id"]
     topics.delete_topic(topic_id)
     return redirect("/tools")
@@ -170,6 +177,7 @@ def delete_topic():
 
 @app.route("/topic_rename", methods=["POST"])
 def topic_rename():
+    users.check_csrf()
     topic_id = request.form["topic_id"]
     new_name = request.form["new_name"]
     topics.topic_rename(topic_id, new_name)

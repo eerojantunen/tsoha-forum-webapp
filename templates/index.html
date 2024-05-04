@@ -71,6 +71,7 @@
 <div class="navigation">
 {% if is_admin == True %}
 <form action="/new_topic">
+   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
    <button type="submit" class="back">New topic</button>
 </form>
 {%endif%}
