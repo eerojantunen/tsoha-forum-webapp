@@ -180,7 +180,8 @@ def topic_rename():
     users.check_csrf()
     topic_id = request.form["topic_id"]
     new_name = request.form["new_name"]
-    topics.topic_rename(topic_id, new_name)
+    print(topic_id)
+    topics.topic_rename(new_name, topic_id)
     return redirect("/tools")
 
 @app.route("/search", methods=["post"])

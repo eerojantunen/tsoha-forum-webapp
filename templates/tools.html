@@ -144,7 +144,7 @@
         </form>
     
        <form action="/topic_rename" method="post" class="rename">
-        <input type="hidden" name="topic_id" value="{{i.id}}">
+        <input type="hidden" name="topic_id" value="{{i.topics_id}}">
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 
          Rename topic: <input type="text" name="new_name" required>

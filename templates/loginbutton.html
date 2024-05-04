@@ -1,4 +1,5 @@
 <style>
+
     .div_login {
         max-width: 20em;
         position: fixed;
@@ -7,16 +8,25 @@
         margin-top: 20px;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
     }
-
     .div_login form input[type=form] {
         margin-top: 10px;
     }
     .div_login form input[type="submit"] {
         width: 100%;
+        margin-top: 10px;
         padding: 5px;
     }
+
+    .div_login label {
+        display: block;
+
+    }
+    .signup{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
 </style>
 <div class="div_login">
 <form action="/login" method ="post">
@@ -26,7 +36,7 @@
     <input type="password" name="password"><br>
     <input type="submit" value="Login">
 </form>
-<form action="/signup" methods = "POST">
+<form action="/signup" methods = "POST" >
     <input type="submit" value="Sign up">
 </form>
 </div>
