@@ -1,6 +1,6 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username TEXT,
+    username TEXT UNIQUE,
     password TEXT,
     tier INTEGER
 );
@@ -26,7 +26,8 @@ CREATE TABLE threads (
     thread_name TEXT,
     topic_id INTEGER,
     access_type INTEGER,
-    status INTEGER
+    status INTEGER,
+    creator_id INTEGER
 );
 
 CREATE TABLE private_topics (
